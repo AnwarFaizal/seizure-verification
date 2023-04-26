@@ -14,6 +14,6 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface SeizureRepository  extends CrudRepository<Seizure, Long> {
     
-    List<Seizure> findByDate(Date date);
+    List<Seizure> findBySeizureDate(Date seizureDate);
     
 }
