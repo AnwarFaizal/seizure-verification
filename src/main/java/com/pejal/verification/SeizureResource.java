@@ -4,11 +4,13 @@
  */
 package com.pejal.verification;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 
 /**
  *
- * @author Ryzen 5
+ * @author pejalhebat
  */
 @Path("/seizures")
 public class SeizureResource {
@@ -18,5 +20,10 @@ public class SeizureResource {
         this.seizureRepository = seizureRepository;
     }
     
-    
+    @GET
+    @Path("/all")
+    @Produces("application/json")
+    public Iterable<Seizure> findAll() {
+        return seizureRepository.findAll();
+    }
 }

@@ -22,7 +22,7 @@ public class Seizure {
     @GeneratedValue
     private Long id;
 
-    private Date date;
+    private Date seizureDate;
 
     private String location;
 
