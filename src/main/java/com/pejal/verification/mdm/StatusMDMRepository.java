@@ -12,4 +12,6 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface StatusMDMRepository  extends CrudRepository<StatusMDM, Long> {
     
+    
+    
 }
