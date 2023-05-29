@@ -4,10 +4,14 @@
  */
 package com.pejal.verification;
 
+import com.pejal.verification.mdm.StatusMDM;
 import java.util.Date;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +22,6 @@ import lombok.NoArgsConstructor;
  */
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Seizure {
     
@@ -30,6 +33,14 @@ public class Seizure {
 
     private String location;
     
-    private String status;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn()
+    private StatusMDM status;
+    
+    public Seizure(Long id, Date seizureDate, String location ) {
+        this.id = id;
+        this.seizureDate = seizureDate;
+        this.location = location;
+    }
 
 }

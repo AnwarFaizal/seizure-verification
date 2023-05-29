@@ -4,7 +4,8 @@
  */
 package com.pejal.verification;
 
-import java.util.Date;
+import com.pejal.verification.mdm.StatusMDM;
+import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -12,6 +13,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  *
@@ -20,6 +22,9 @@ import javax.ws.rs.Produces;
 @Path("/seizures")
 public class SeizureResource {
     private final SeizureRepository seizureRepository;
+    
+    @Autowired
+    SeizureBusinessHandler seizureHandler;
 
     public SeizureResource(SeizureRepository seizureRepository) {
         this.seizureRepository = seizureRepository;
@@ -36,8 +41,9 @@ public class SeizureResource {
     @Path("/{id}")
     @Produces("application/json")
     public Seizure findById(@PathParam("id") Long id) {
+        
         return seizureRepository.findById(id)
-                .orElse(new Seizure(99L,new Date(),"Kajang", "New"));
+                .orElse(seizureHandler.generateDefaultSeizure());
     }
     
     @POST
@@ -56,5 +62,12 @@ public class SeizureResource {
         Seizure deleted = seizureRepository.findById(id).orElseThrow();
         seizureRepository.deleteById(id);
         return deleted;
+    }
+    
+    @GET
+    @Path("/status/all")
+    @Produces("application/json")
+    public List<StatusMDM> getAllStatus(){
+        return seizureHandler.listAllStatus();
     }
 }
