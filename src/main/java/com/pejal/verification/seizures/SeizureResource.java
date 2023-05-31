@@ -2,10 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.pejal.verification;
+package com.pejal.verification.seizures;
 
-import com.pejal.verification.mdm.StatusMDM;
+import com.pejal.verification.seizures.business.SeizureBusinessHandler;
+import com.pejal.verification.mdm.status.StatusMDM;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -44,6 +47,20 @@ public class SeizureResource {
         
         return seizureRepository.findById(id)
                 .orElse(seizureHandler.generateDefaultSeizure());
+    }
+    
+    @GET
+    @Path("/{id}/products")
+    @Produces("application/json")
+    public List<ProductSeized> productsById(@PathParam("id") Long id) {
+        
+        Seizure seizure = seizureRepository.findById(id)
+                .orElse(null);
+        if (seizure == null || seizure.getProductsSeized().isEmpty()) {
+            return List.of();
+        }
+        return seizure.getProductsSeized().stream().collect(Collectors.toList());
+
     }
     
     @POST
